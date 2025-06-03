@@ -1,7 +1,8 @@
-from finance_manager.db.session import session
+from finance_manager.db.session import SessionLocal
 from finance_manager.db.models import User, Transaction, Budget
 from tabulate import tabulate
 
+session = SessionLocal()
 
 def main_menu():
     while True:
@@ -108,7 +109,7 @@ def transaction_menu():
             txs = session.query(Transaction).all()
             if txs:
                 print(tabulate(
-                    [[t.id, t.user_id, t.amount, t.type, t.category, t.timestamp] for t in txs],
+                    [[t.id, t.user_id, t.amount, t.type, t.category, t.date] for t in txs],
                     headers=["ID", "User ID", "Amount", "Type", "Category", "Date"]
                 ))
             else:
@@ -119,7 +120,7 @@ def transaction_menu():
                 txs = session.query(Transaction).filter_by(user_id=user_id).all()
                 if txs:
                     print(tabulate(
-                        [[t.id, t.amount, t.type, t.category, t.timestamp] for t in txs],
+                        [[t.id, t.amount, t.type, t.category, t.date] for t in txs],
                         headers=["ID", "Amount", "Type", "Category", "Date"]
                     ))
                 else:
@@ -163,7 +164,7 @@ def budget_menu():
                     continue
                 category = input("Enter budget category: ").strip()
                 limit = float(input("Enter budget limit: "))
-                budget = Budget(user=user, category=category, limit=limit)
+                budget = Budget(user=user, category=category, limit_amount=limit)
                 session.add(budget)
                 session.commit()
                 print("Budget set.")
@@ -173,7 +174,7 @@ def budget_menu():
             budgets = session.query(Budget).all()
             if budgets:
                 print(tabulate(
-                    [[b.id, b.user_id, b.category, b.limit] for b in budgets],
+                    [[b.id, b.user_id, b.category, b.limit_amount] for b in budgets],
                     headers=["ID", "User ID", "Category", "Limit"]
                 ))
             else:
@@ -184,7 +185,7 @@ def budget_menu():
                 budgets = session.query(Budget).filter_by(user_id=user_id).all()
                 if budgets:
                     print(tabulate(
-                        [[b.id, b.category, b.limit] for b in budgets],
+                        [[b.id, b.category, b.limit_amount] for b in budgets],
                         headers=["ID", "Category", "Limit"]
                     ))
                 else:
