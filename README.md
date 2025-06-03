@@ -3,7 +3,7 @@
 A command-line tool to manage income, expenses, and budgeting.
 
 ## 👤 Author
-John Doe
+Fancy Chepngetich Byegon
 
 ## 🛠️ Features
 - Add users

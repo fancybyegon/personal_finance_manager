@@ -1,4 +1,4 @@
-# finance_manager/db/models.py
+
 from sqlalchemy import Column, Integer, String, ForeignKey, Float, Date
 from sqlalchemy.orm import relationship
 from finance_manager.db.session import Base
@@ -18,7 +18,7 @@ class Transaction(Base):
     user_id = Column(Integer, ForeignKey("users.id"))
     amount = Column(Float, nullable=False)
     category = Column(String)
-    type = Column(String)  # 'income' or 'expense'
+    type = Column(String)  
     date = Column(Date)
 
     user = relationship("User", back_populates="transactions")
